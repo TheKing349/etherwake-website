@@ -1,0 +1,44 @@
+/* Light theme (default) */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #212529;
+    --table-bg: #ffffff;
+    --table-border: #dee2e6;
+}
+
+/* Dark theme */
+html[data-theme="dark"] {
+    --bg-color: #212529;
+    --text-color: #f8f9fa;
+    --table-bg: #2d3339;
+    --table-border: #444950;
+}
+
+/* Apply theme variables */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.table,
+.table th,
+.table td {
+    background-color: var(--table-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--table-border) !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    --striped-bg: color-mix(in srgb, var(--table-bg) 90%, var(--text-color));
+    background-color: var(--striped-bg) !important;
+}
+
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
