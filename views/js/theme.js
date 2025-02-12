@@ -16,19 +16,16 @@ export function setupThemeToggle() {
     const currentTheme = html.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-    // Force redraw for table elements
     const tables = document.querySelectorAll('.table');
     tables.forEach(table => {
         table.style.display = 'none';
-        void table.offsetWidth; // Trigger reflow
+        void table.offsetWidth;
         table.style.display = 'table';
     });
 
-    // Update theme and storage
     html.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
 
-    // Update icon
     const icon = document.getElementById('themeIcon');
     icon.classList.remove('fa-sun', 'fa-moon');
     icon.classList.add(newTheme === 'dark' ? 'fa-moon' : 'fa-sun');

@@ -1,13 +1,12 @@
-import { loadDevices, devices, validateMAC, showError } from './devices.js';
+import {loadDevices, devices, validateMAC, showError} from './devices.js';
 import {setupThemeToggle} from "./theme.js";
+import {showToast} from "./toast.js";
 
 let editingOriginalName = null;
 
 export function setupEventListeners() {
-    // New Device button
     document.getElementById('newDeviceBtn').addEventListener('click', addNewDeviceRow);
 
-    // Table interactions
     const deviceTable = document.getElementById('deviceTable');
     deviceTable.addEventListener('click', handleTableClick);
 
@@ -94,7 +93,6 @@ function handleEdit(deviceName) {
     editingOriginalName = deviceName;
     const device = devices.find(d => d.name === deviceName);
 
-    // Query using the fully escaped value
     const button = document.querySelector(`button[data-name="${deviceName}"]`);
 
     if (!button) {
@@ -104,7 +102,6 @@ function handleEdit(deviceName) {
 
     const originalRow = button.closest('tr');
 
-    // Render edit row
     const editRow = `
         <tr class="editing">
             <td><input type="text" class="form-control form-control-sm" 
@@ -139,18 +136,24 @@ async function handleDelete(deviceName) {
 }
 
 async function handleWake(mac) {
-    const response = await fetch('/api/wake', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mac })
-    });
+    try {
+        showToast('warning', 'Wake command sending...');
+        const response = await fetch('/api/wake', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ mac })
+        });
 
-    if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Wake command failed');
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Wake command failed');
+        }
+
+        showToast('success', 'Wake command sent successfully');
+    } catch (error) {
+        showToast('error', error.message);
     }
-
-    alert('Wake command sent successfully');
 }
 
 function addNewDeviceRow() {

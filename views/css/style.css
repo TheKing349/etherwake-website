@@ -1,24 +1,32 @@
-/* Light theme (default) */
 :root {
-    --bg-color: #ffffff;
-    --text-color: #212529;
-    --table-bg: #ffffff;
-    --table-border: #dee2e6;
-}
-
-/* Dark theme */
-html[data-theme="dark"] {
     --bg-color: #212529;
     --text-color: #f8f9fa;
     --table-bg: #2d3339;
     --table-border: #444950;
+    --base-font-size: 16px;
 }
 
-/* Apply theme variables */
+html[data-theme="light"] {
+    --bg-color: #ffffff;
+    --text-color: #212529;
+    --table-bg: #ededed;
+    --table-border: #b6b6b6;
+}
+
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
     transition: background-color 0.3s, color 0.3s;
+    font-size: var(--base-font-size);
+    line-height: 1.5;
+    padding: 1rem;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin: 1rem -1rem;
 }
 
 .table,
@@ -27,6 +35,11 @@ body {
     background-color: var(--table-bg) !important;
     color: var(--text-color) !important;
     border-color: var(--table-border) !important;
+    font-size: 1.3rem;
+    min-width: 200px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1.3;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
@@ -36,9 +49,76 @@ body {
 
 .theme-toggle {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 1rem;
+    right: 1rem;
     z-index: 1000;
     background-color: var(--text-color);
     color: var(--bg-color);
+    padding: 0.75rem;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+@media (min-width: 768px) {
+    body {
+        padding: 2rem;
+        font-size: calc(var(--base-font-size) * 1.1);
+    }
+
+    .table {
+        font-size: 1rem;
+    }
+
+    .theme-toggle {
+        bottom: 2rem;
+        right: 2rem;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 767px) {
+    body {
+        padding: 0.5rem;
+        font-size: calc(var(--base-font-size) * 0.8);
+    }
+
+    .table-container {
+        margin: 0.5rem -0.5rem;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table,
+    .table th,
+    .table td {
+        font-size: 1rem;
+        min-width: 120px;
+        padding: 0.75rem 0.5rem;
+    }
+
+    .table td {
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    .table th {
+        font-size: 1.1rem;
+    }
+
+    .table td button {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.9em;
+    }
+
+    .theme-toggle {
+        bottom: 0.5rem;
+        right: 0.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+    }
 }
