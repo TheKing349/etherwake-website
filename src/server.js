@@ -14,37 +14,51 @@ const ssh = new NodeSSH();
 const publicPath = path.join(process.cwd().replace(/\\src/, ""), "/views");
 const devicesPath = path.join(publicPath, "data/devices.json");
 
-const redisClient = redis.createClient({
-    url: process.env.REDIS_HOST
-});
-redisClient.connect().catch(console.error);
+if (process.env.USE_REDIS === "true") {
+    const redisClient = redis.createClient({
+        url: process.env.REDIS_HOST
+    });
+    redisClient.connect().catch(console.error);
 
-const redisStore = new RedisStore({
-    client: redisClient,
-    prefix: "etherwake-website"
-});
+    const redisStore = new RedisStore({
+        client: redisClient,
+        prefix: "etherwake-website"
+    });
 
-const httpsOptions = {
-    key: fs.readFileSync('src/keys/server.key'),
-    cert: fs.readFileSync('src/keys/server.crt')
+    app.use(
+        session({
+            store: redisStore,
+            secret: process.env.SESSION_SECRET,
+            resave: false,
+            saveUninitialized: false,
+            cookie: { maxAge: 86400000 },
+        })
+    );
 }
-
-app.use(
-    session({
-        store: redisStore,
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-        cookie: { maxAge: 86400000 },
-    })
-);
+else {
+    app.use(
+        session({
+            secret: process.env.SESSION_SECRET,
+            resave: false,
+            saveUninitialized: false,
+            cookie: { maxAge: 86400000 },
+        })
+    );
+}
 
 app.use(express.json());
 app.use("/views", express.static("views"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 http.createServer(app).listen(80);
-https.createServer(httpsOptions, app).listen(443);
+
+if (process.env.USE_HTTPS === "true") {
+    const httpsOptions = {
+        key: fs.readFileSync('src/keys/server.key'),
+        cert: fs.readFileSync('src/keys/server.crt')
+    }
+    https.createServer(httpsOptions, app).listen(443);
+}
 
 let devices = [];
 try {

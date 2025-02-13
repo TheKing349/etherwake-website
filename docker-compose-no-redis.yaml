@@ -9,7 +9,3 @@ services:
       - ./devices.json:/usr/src/app/views/data/devices.json
       - ./keys:/usr/src/app/src/keys
       - ./.env:/usr/src/app/.env
-networks:
-  default:
-    external: true
-    name: redis_network
