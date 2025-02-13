@@ -5,14 +5,9 @@ services:
     restart: always
     ports:
       - "8089:80"
-    environment:
-      - REDIS_HOST=[REDIS_HOST_HERE]
-      - SSH_HOST=[SSH_HOST_HERE]
-      - SSH_USER=[SSH_USERNAME_HERE]
-      - SSH_PASSWORD=[SSH_PASSWORD_HERE]
-      - SESSION_SECRET=[SECRET_HERE]
     volumes:
       - ./devices.json:/usr/src/app/views/data/devices.json
+      - ./.env:/usr/src/app/.env
     depends_on:
       - redis
 

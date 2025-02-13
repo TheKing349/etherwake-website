@@ -43,17 +43,20 @@ Before you get started, make sure you have the following:
     - If you **already have a Redis server**, use [docker-compose-external-redis.yaml](./docker-compose-external-redis.yaml).
         - Modify the Redis network to `redis_network` in `docker-compose.yaml`.
     - If you **do not have a Redis server**, use [docker-compose-internal-redis.yaml](./docker-compose-internal-redis.yaml)
-    - Adjust environment variables as needed.
-
-4. **Create a Device List File**
+  
+4. **Create the Necessary Files**
    ```sh
-   touch devices.json
+   sudo touch devices.json
+   sudo touch .env
    ```
-5. **Run the Container**
+5. **Edit Environment Variables**
+    - Use the [env template](./.env.template) to update your env file: `sudo nano .env`
+    - Make sure all fields are filled out from the [env template](./.env.template) to ensure no errors
+6. **Run the Container**
    ```sh
    docker compose up -d
    ```
-6. **Access the Website**  
+7. **Access the Website**  
    Open a browser and go to:
    ```
    http://your-server-ip:8089
@@ -81,13 +84,13 @@ Before you get started, make sure you have the following:
       ```
       [PROJECT_ROOT]/src/keys/
       ```
-    - If you **do not have SSL certificates**, remove these lines in [server.js](./server.js):
+    - If you **do not have SSL certificates**, remove these lines in [server.js](./src/server.js):
       ```js
       const httpsOptions = {...}
       https.createServer(httpsOptions, app).listen(443);
       ```
 5. **Remove Redis Server (Optional)**
-    - If you do not want to worry about a Redis Server, remove the following line in the `app.use(...` section in [server.js](./server.js):
+    - If you do not want to worry about a Redis Server, remove the following line in the `app.use(...` section in [server.js](./src/server.js):
       ```
         store: redisStore,
       ```
