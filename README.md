@@ -1,7 +1,8 @@
 ## Etherwake-Website
 Welcome to **Etherwake-Website** This is a Node.js and Express.js-based web application designed to help you wake up devices on your local network using the ```etherwake``` command.
-This project was born out of a specific need: waking up a computer that doesn't support Wake-on-Wireless-LAN (WoWLAN) and isn't connected via Ethernet.
-Instead of relying on the computer's wireless capabilities, this solution leverages a Raspberry Pi connected to the same network to send the magic packet and wake the device.
+The project was created to address a specific need: waking up a computer that doesn't support Wake-on-Wireless-LAN (WoWLAN) and isn't connected via Ethernet. Rather than relying on the device's wireless capabilities, this solution utilizes a Raspberry Pi on the same network to send the magic packet and trigger the device to wake up.
+
+If you're looking for a simpler Wake-on-LAN web solution, check out [this repo](https://github.com/sameerdhoot/wolweb) instead.
 
 ---
 ## Why Does This Exist?
