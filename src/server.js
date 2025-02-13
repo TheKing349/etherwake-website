@@ -1,6 +1,8 @@
 const path = require("path");
 const express = require("express");
-const session = require("cookie-session");
+const session = require("express-session");
+const { RedisStore } = require("connect-redis");
+const redis = require("redis");
 const app = express();
 const http = require("http");
 const https = require("https");
@@ -10,28 +12,30 @@ const { NodeSSH } = require('node-ssh');
 const ssh = new NodeSSH();
 
 const publicPath = path.join(process.cwd().replace(/\\src/, ""), "/views");
+const devicesPath = path.join(publicPath, "data/devices.json");
+
+const redisClient = redis.createClient({
+    url: process.env.REDIS_HOST || 'redis://redis:6379'
+});
+redisClient.connect().catch(console.error);
+
+const redisStore = new RedisStore({
+    client: redisClient,
+    prefix: "etherwake-website"
+});
 
 const httpsOptions = {
     key: fs.readFileSync('src/keys/server.key'),
     cert: fs.readFileSync('src/keys/server.crt')
 }
 
-let devices = [];
-try {
-    devices = JSON.parse(fs.readFileSync('devices.json'));
-} catch (err) {
-    console.log('No devices file found, starting fresh');
-}
-
 app.use(
     session({
+        store: redisStore,
         secret: process.env.SESSION_SECRET,
-        resave: true,
+        resave: false,
         saveUninitialized: false,
-        cookie: {
-            path: "/",
-            secure: true
-        },
+        cookie: { maxAge: 86400000 },
     })
 );
 
@@ -42,6 +46,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 http.createServer(app).listen(80);
 https.createServer(httpsOptions, app).listen(443);
 
+let devices = [];
+try {
+    devices = JSON.parse(fs.readFileSync(devicesPath));
+} catch (err) {
+    console.log('No devices file found, starting fresh');
+}
+
 app.get('/', (req, res) => {
    res.sendFile(path.join(publicPath, "/html/index.html"));
 });
@@ -50,7 +61,7 @@ app.get('/api/devices', (req, res) => res.json(devices));
 app.delete('/api/devices', (req, res) => {
     const name = req.query.name;
     devices = devices.filter(d => d.name !== name);
-    fs.writeFileSync('devices.json', JSON.stringify(devices));
+    fs.writeFileSync(devicesPath, JSON.stringify(devices));
     res.json(devices);
 });
 app.post('/api/devices', (req, res) => {
@@ -70,7 +81,7 @@ app.post('/api/devices', (req, res) => {
         devices.push(newDevice);
     }
 
-    fs.writeFileSync('devices.json', JSON.stringify(devices));
+    fs.writeFileSync(devicesPath, JSON.stringify(devices));
     res.json(devices);
 });
 

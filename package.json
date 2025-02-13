@@ -1,7 +1,7 @@
 {
-  "name": "simple-server-node",
-  "version": "2.0.0",
-  "description": "A simple Expressjs Web server on balena",
+  "name": "etherwake-website",
+  "version": "1.0.0",
+  "description": "A simple ExpressJS server for etherwake on another device",
   "main": "server.js",
   "private": true,
   "scripts": {
@@ -10,9 +10,10 @@
   },
   "dependencies": {
     "body-parser": "^1.20.3",
-    "cookie-session": "^2.1.0",
+    "connect-redis": "^8.0.1",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
-    "node-ssh": "^13.2.0"
+    "node-ssh": "^13.2.0",
+    "redis": "^4.7.0"
   }
 }
