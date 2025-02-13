@@ -3,28 +3,28 @@ Welcome to **Etherwake-Website** - a Node.js/Express web application that wakes 
 
 For a simpler Wake-on-LAN web solution, see [this alternative repo](https://github.com/sameerdhoot/wolweb).
 
----  
+
 ## Why This Exists
 Provides a workaround for waking computers that:
 1. Lack WoWLAN support
 2. Aren't Ethernet-connected
 3. Have a Raspberry Pi on the same network to send Wake-on-LAN (WoL) packets
 
----  
+
 ## Features
 - **Device Management** - Add, edit, and remove devices
 - **One-Click Wake** - Send WoL packets via web interface
 - **Secure Storage** - Optional Redis integration for production
 - **Docker Support** - Pre-built image with compose examples
 
----  
+
 ## How It Works
 1. **Add Device** - Enter name/MAC via web interface
 2. **Initiate Wake** - Click button to SSH into Pi
 3. **Send Packet** - Pi executes `etherwake` command
 4. **Device Wakes** - Target system powers on
 
----  
+
 ## Prerequisites
 - Raspberry Pi running Raspberry Pi OS (connected to target via Ethernet)
 - `etherwake` installed on Pi:
@@ -33,7 +33,7 @@ Provides a workaround for waking computers that:
   ```
 - SSH access from your server to Pi(SSH enabled and tested)
 
----  
+
 ## Installation
 
 ### **Option 1: With Docker (Recommended)**
@@ -54,7 +54,7 @@ Provides a workaround for waking computers that:
         - Edit environment variables as needed
         - Description of environment variables [here](#Environment-Variables)
     - **For HTTPS (Optional)**
-        - Create `keys` directory(` sudo mkdir keys`)
+        - Create `keys` directory(`sudo mkdir keys`)
         - Add `server.crt` and `server.key` files
         - Set `USE_HTTPS` to `true` in the `.env`
 4. **Start the Container**
@@ -63,7 +63,7 @@ Provides a workaround for waking computers that:
    ```
 5. **Access the Website**    
    Open a browser and go to `http://your-server-ip:8089`
----  
+
 
 ### **Option 2: Without Docker (Not Recommended)**
 
@@ -89,8 +89,8 @@ Provides a workaround for waking computers that:
 5. **Access the Website**    
    Open a browser and go to `http://your-server-ip:8089`
 
----  
-## Environment Variables:
+
+## Environment Variables
 | Environment Variable | Description                                                                                                    | Example Value           |
 |----------------------|----------------------------------------------------------------------------------------------------------------|-------------------------|
 | SESSION_SECRET       | Secure cookie secret (generate with `node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"` | 64-char hex             |
@@ -101,15 +101,15 @@ Provides a workaround for waking computers that:
 | SSH_USER             | Raspberry Pi username                                                                                          | pi                      |
 | SSH_PASSWORD         | Raspberry Pi password                                                                                          | raspberry               |
 
----  
+
 ## Usage
 1. **Add a Device**:
-   -Click ➕ and enter name and MAC address
+  - Click ➕ and enter name and MAC address
 2. **Wake a Device**:
-    - Select device ➔ Click "Wake"
+  - Select device ➔ Click "Wake"
 
----  
-## Troubleshooting:
+
+## Troubleshooting
 - **SSH Issues**
     - **Verify Pi connectivity:**
     ```bash
@@ -131,10 +131,11 @@ Provides a workaround for waking computers that:
   docker logs etherwake-website -f 
   ```
     - Validate volume mounts and permissions
----
+
+
 ## Contributing
 Issues and PRs welcome! Please follow existing code style and include tests where applicable.
 
----
+
 ## License:
 The project is licensed under the [MIT LICENSE](./LICENSE)
