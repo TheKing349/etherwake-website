@@ -15,7 +15,7 @@ const publicPath = path.join(process.cwd().replace(/\\src/, ""), "/views");
 const devicesPath = path.join(publicPath, "data/devices.json");
 
 const redisClient = redis.createClient({
-    url: process.env.REDIS_HOST || 'redis://redis:6379'
+    url: process.env.REDIS_HOST
 });
 redisClient.connect().catch(console.error);
 
@@ -92,7 +92,7 @@ app.post('/api/wake', async (req, res) => {
 
     try {
         await ssh.connect({
-            host: process.env.EXECUTOR_IP,
+            host: process.env.SSH_HOST,
             port: 22,
             username: process.env.SSH_USER,
             password: process.env.SSH_PASSWORD
