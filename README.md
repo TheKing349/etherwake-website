@@ -37,7 +37,7 @@ Before you get started, make sure you have the following:
    ```
 2. **Create a `docker-compose.yaml` File**
    ```sh
-   nano docker-compose.yaml
+   sudo nano docker-compose.yaml
    ```
 3. **Choose the Correct Configuration**
     - If you **already have a Redis server**, use [docker-compose-external-redis.yaml](./docker-compose-external-redis.yaml).
