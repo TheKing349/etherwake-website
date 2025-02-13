@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\"",
-    "start": "node src/server.js"
+    "start": "node --env-file=.env src/server.js"
   },
   "dependencies": {
     "body-parser": "^1.20.3",
