@@ -73,7 +73,7 @@ Before you get started, make sure you have the following:
    ```
 3. **Set Up the Environment**
     - Create a `.env` file in the root directory.
-    - Copy the contents of the [.env](./.env) template file and modify as needed.
+    - Copy the contents of the [.env.template](./.env.template) file and modify as needed.
 
 4. **Add SSL Certificates (Optional)**
     - If you **have SSL certificates**, place `server.key` and `server.crt` in:
@@ -121,7 +121,7 @@ Before you get started, make sure you have the following:
 ## Troubleshooting:
 - **SSH connection failed**:
     - Ensure the Raspberry Pi is powered on, connected to the network
-    - Verify the ```SSH_HOST```, ```SSH_USER```,  and ```SSH_PASSWORD``` values in the ```.env``` file or environment variables in the `docker-compose.yaml` file are correct
+    - Verify the ```SSH_HOST```, ```SSH_USER```,  and ```SSH_PASSWORD``` values in the [.env.template](./.env.template) file or environment variables in the `docker-compose.yaml` file are correct
     - Test SSH access manually from your server using the command: `ssh [YOUR_SSH_USERNAME]@[YOUR_RASPBERRY_PI_IP]`
     - If SSH access is blocked, enable SSH on the Raspberry Pi:
       ```sh
