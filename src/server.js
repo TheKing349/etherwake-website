@@ -112,7 +112,7 @@ app.post('/api/wake', async (req, res) => {
             password: process.env.SSH_PASSWORD
         });
 
-        const command = `sudo etherwake ${req.body.mac}`;
+        const command = `sudo etherwake -i ${process.env.ETHERNET_INTERFACE} ${req.body.mac}`;
 
         const result = await ssh.execCommand(command);
 
