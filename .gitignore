@@ -4,3 +4,4 @@
 /src/keys/
 **/.idea
 .env
+/views/data/devices.json
